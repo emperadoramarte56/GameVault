@@ -1,0 +1,7 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GameVault - Inicio</title><link rel="stylesheet" href="style.css"></head><body><header><a class="logo" href="/">🎮 GameVault</a><nav><a href="/">Inicio</a><a href="/juegos.html">Juegos</a><a href="/registro.html" data-auth="out" hidden>Registro</a><a href="/login.html" data-auth="out" hidden>Entrar</a><span class="user" data-auth="in" hidden>👤 <b id="usuario"></b></span><a href="#" id="salir" data-auth="in" hidden>Salir</a></nav></header><main>
+<section class="hero"><h1>Tu bóveda de videojuegos</h1><p>Explora juegos gratuitos por género y plataforma.</p>
+<p class="saludo" data-auth="in" hidden>Hola, <b class="nombre"></b>. Ya tienes sesión iniciada.</p><a class="btn" href="/registro.html" data-auth="out" hidden>Crear cuenta</a> <a class="btn ghost" href="/login.html" data-auth="out" hidden>Iniciar sesión</a> <a class="btn" href="/juegos.html" data-auth="in" hidden>Ir al catálogo</a></section>
+<section class="cards3"><div class="card"><h3>🔒 Seguro</h3><p>Contraseñas cifradas, sesión con JWT y validación en servidor.</p></div>
+<div class="card"><h3>🌐 Web Service</h3><p>Datos en vivo desde la API REST de FreeToGame.</p></div>
+<div class="card"><h3>🔑 Claves protegidas</h3><p>La configuración (.env) queda fuera de GitHub.</p></div></section>
+</main><footer>Proyecto Unidad 3 · Seguridad y Web Services · Datos: FreeToGame API</footer><script src="app.js"></script></body></html>

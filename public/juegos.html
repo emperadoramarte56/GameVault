@@ -1,0 +1,8 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GameVault - Juegos</title><link rel="stylesheet" href="style.css"></head><body><header><a class="logo" href="/">🎮 GameVault</a><nav><a href="/">Inicio</a><a href="/juegos.html">Juegos</a><a href="/registro.html" data-auth="out" hidden>Registro</a><a href="/login.html" data-auth="out" hidden>Entrar</a><span class="user" data-auth="in" hidden>👤 <b id="usuario"></b></span><a href="#" id="salir" data-auth="in" hidden>Salir</a></nav></header><main>
+<h2>Catálogo de juegos</h2><form id="buscar" class="search"><input id="q" placeholder="Buscar por nombre" maxlength="50">
+<select id="genero"><option value="">Todos los géneros</option></select>
+<select id="plataforma"><option value="">Todas las plataformas</option></select>
+<select id="orden"><option value="">Orden: popular</option><option value="reciente">Más recientes</option><option value="antiguo">Más antiguos</option><option value="nombre">A-Z</option></select>
+<button class="btn">Buscar</button><button type="button" class="btn ghost" id="limpiar">Limpiar</button></form>
+<p class="msg" id="estado"></p><div id="lista" class="grid"></div><p style="text-align:center"><button class="btn ghost" id="mas" hidden>Ver más</button></p>
+</main><footer>Proyecto Unidad 3 · Seguridad y Web Services · Datos: FreeToGame API</footer><script src="app.js"></script></body></html>

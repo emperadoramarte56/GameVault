@@ -1,0 +1,6 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GameVault - Entrar</title><link rel="stylesheet" href="style.css"></head><body><header><a class="logo" href="/">🎮 GameVault</a><nav><a href="/">Inicio</a><a href="/juegos.html">Juegos</a><a href="/registro.html" data-auth="out" hidden>Registro</a><a href="/login.html" data-auth="out" hidden>Entrar</a><span class="user" data-auth="in" hidden>👤 <b id="usuario"></b></span><a href="#" id="salir" data-auth="in" hidden>Salir</a></nav></header><main>
+<section class="box"><h2>Iniciar sesión</h2><p class="msg" id="aviso" hidden>Inicia sesión para ver el catálogo de juegos.</p><form id="login" novalidate>
+<label>Correo<input name="email" type="email" autocomplete="email"><small></small></label>
+<label>Contraseña<input name="password" type="password" autocomplete="current-password"><small></small></label>
+<button class="btn">Iniciar sesión</button><p class="msg"></p><p class="alt">¿No tienes cuenta? <a href="/registro.html">Regístrate</a></p></form></section>
+</main><footer>Proyecto Unidad 3 · Seguridad y Web Services · Datos: FreeToGame API</footer><script src="app.js"></script></body></html>
