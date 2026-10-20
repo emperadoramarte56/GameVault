@@ -1,3 +1,17 @@
 .env
 node_modules/
 data/users.json
+
+# --- Backend Django (carpeta backend/) ---
+# Entorno virtual
+venv/
+.venv/
+env/
+
+# Base de datos local
+db.sqlite3
+db.sqlite3-journal
+
+# Python
+__pycache__/
+*.py[cod]
