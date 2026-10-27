@@ -112,3 +112,53 @@ class UserApiTests(APITestCase):
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.json()["info"]["title"], "GameVault API")
         self.assertIn("gamertag", r.json()["definitions"]["User"]["properties"])
+
+
+REGISTER_URL = "/api/v1/auth/register/"
+
+
+class RegisterApiTests(APITestCase):
+    datos = {
+        "username": "nuevo",
+        "email": "nuevo@gamevault.test",
+        "password": "Clave-Segura-789!",
+        "gamertag": "Nuevo01",
+    }
+
+    def test_registro_publico_crea_usuario_con_password_cifrada(self):
+        r = self.client.post(REGISTER_URL, self.datos, format="json")
+        self.assertEqual(r.status_code, 201, r.content)
+        self.assertNotIn("password", r.content.decode())
+        user = User.objects.get(email="nuevo@gamevault.test")
+        self.assertNotEqual(user.password, self.datos["password"])
+        self.assertTrue(user.check_password(self.datos["password"]))
+        self.assertFalse(user.is_staff)
+
+    def test_registro_no_permite_hacerse_administrador(self):
+        r = self.client.post(REGISTER_URL, {**self.datos, "is_staff": True, "is_superuser": True}, format="json")
+        self.assertEqual(r.status_code, 201)
+        user = User.objects.get(email="nuevo@gamevault.test")
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+
+    def test_registro_rechaza_password_debil_y_email_repetido(self):
+        r = self.client.post(REGISTER_URL, {**self.datos, "password": "123"}, format="json")
+        self.assertEqual(r.status_code, 400)
+        self.client.post(REGISTER_URL, self.datos, format="json")
+        r = self.client.post(REGISTER_URL, {**self.datos, "username": "otro"}, format="json")
+        self.assertEqual(r.status_code, 400)
+
+    def test_registro_y_luego_login(self):
+        self.client.post(REGISTER_URL, self.datos, format="json")
+        r = self.client.post(
+            TOKEN_URL, {"email": self.datos["email"], "password": self.datos["password"]}, format="json"
+        )
+        self.assertEqual(r.status_code, 200)
+
+    def test_cors_permite_el_frontend_de_vite(self):
+        r = self.client.options(
+            TOKEN_URL,
+            HTTP_ORIGIN="http://localhost:5173",
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD="POST",
+        )
+        self.assertEqual(r["Access-Control-Allow-Origin"], "http://localhost:5173")

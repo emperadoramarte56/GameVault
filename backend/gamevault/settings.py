@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -47,6 +47,7 @@ BASE_APPS = [
 THIRD_APPS = [
     "rest_framework",
     "drf_yasg",
+    "corsheaders",
 ]
 
 OWN_APPS = [
@@ -58,6 +59,7 @@ INSTALLED_APPS = BASE_APPS + THIRD_APPS + OWN_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -161,3 +163,10 @@ SWAGGER_SETTINGS = {
         "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"},
     },
 }
+
+# CORS: solo se permite el frontend de React (Vite) en desarrollo local.
+# El manual usa CORS_ORIGIN_ALLOW_ALL = True; aquí se limita a los orígenes necesarios.
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]

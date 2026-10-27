@@ -48,3 +48,29 @@ class UserSerializer(serializers.ModelSerializer):
             user.set_password(password)
             user.save()
         return user
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    """Registro público: solo los campos que un usuario nuevo puede elegir.
+
+    No incluye is_staff / is_active, así nadie puede registrarse como administrador.
+    """
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password", "gamertag"]
+        extra_kwargs = {
+            "password": {"write_only": True, "style": {"input_type": "password"}},
+            "gamertag": {"required": False},
+        }
+
+    def validate_password(self, value):
+        password_validation.validate_password(value)
+        return value
+
+    def create(self, validated_data):
+        password = validated_data.pop("password")
+        user = User(**validated_data)
+        user.set_password(password)  # se guarda cifrada
+        user.save()
+        return user
