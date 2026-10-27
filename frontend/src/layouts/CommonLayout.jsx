@@ -1,8 +1,3 @@
 export function CommonLayout({ children }) {
-  return (
-    <div>
-      <p>CommonLayout</p>
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 }

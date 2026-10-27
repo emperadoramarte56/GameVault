@@ -1,15 +1,11 @@
 import { Login } from "../pages/common";
+import { useAuth } from "../hooks/useAuth";
 
 export function AdminLayout({ children }) {
-  // Temporal: en el Bloque 3 se reemplaza por useAuth()
-  const auth = null;
+  const { auth } = useAuth();
 
+  // Ruta protegida: sin sesión se muestra el login
   if (!auth) return <Login />;
 
-  return (
-    <div>
-      <p>AdminLayout</p>
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 }
