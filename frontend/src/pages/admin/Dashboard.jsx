@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
 import { useAuth } from "../../hooks/useAuth";
+import { GamesWidget } from "../../components/GamesWidget";
 
 export function Dashboard() {
   const { logout, auth } = useAuth();
@@ -19,6 +20,8 @@ export function Dashboard() {
         </div>
         <Button content="Cerrar Sesión" onClick={logout} />
       </div>
+
+      <GamesWidget />
     </div>
   );
 }
