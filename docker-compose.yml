@@ -1,0 +1,65 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: gamevault-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      # Volumen con nombre: los datos sobreviven a "docker compose down"
+      - mysql_data:/var/lib/mysql
+    networks:
+      - gamevault-net
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  backend:
+    build: ./backend
+    container_name: gamevault-backend
+    restart: unless-stopped
+    environment:
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DJANGO_DEBUG: ${DJANGO_DEBUG}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - gamevault-net
+
+  frontend:
+    build: ./frontend
+    container_name: gamevault-frontend
+    restart: unless-stopped
+    environment:
+      VITE_BASE_API_URL: ${VITE_BASE_API_URL}
+      VITE_LOCAL_STORAGE_ITEM_NAME: ${VITE_LOCAL_STORAGE_ITEM_NAME}
+      VITE_GAMES_API_URL: ${VITE_GAMES_API_URL}
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - gamevault-net
+
+volumes:
+  mysql_data:
+
+networks:
+  gamevault-net:
+    driver: bridge

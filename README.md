@@ -1,3 +1,48 @@
+# GameVault 🎮 (Docker)
+
+Catálogo de videojuegos con **React (Vite)**, **Django REST Framework + JWT** y **MySQL**, orquestado con Docker Compose. Con un solo comando se levanta todo el sistema sin instalar Python, Node ni MySQL.
+
+| Servicio | Contenedor | URL |
+|---|---|---|
+| Frontend (React) | `gamevault-frontend` | http://localhost:5173 |
+| Backend (Django + Swagger) | `gamevault-backend` | http://localhost:8000 |
+| Base de datos (MySQL 8) | `gamevault-db` | puerto 3306 |
+
+## Requisitos
+- Docker Desktop (en ejecución) y Git
+
+## Instalación
+```bash
+git clone https://github.com/emperadoramarte56/GameVault.git
+cd GameVault
+cp .env.example .env        # en PowerShell: copy .env.example .env
+# Edita .env y cambia las contraseñas y la clave secreta
+docker compose up --build
+```
+Abrir http://localhost:5173 (frontend) y http://localhost:8000 (Swagger).
+
+## Crear un administrador (opcional)
+```bash
+docker compose exec backend python manage.py createsuperuser
+```
+
+## Comandos útiles
+```bash
+docker compose up -d --build   # levantar en segundo plano
+docker ps                      # ver contenedores
+docker compose logs -f backend # ver logs
+docker compose down            # apagar (los datos se conservan en el volumen)
+docker compose down -v         # apagar y BORRAR la base de datos
+```
+
+## Persistencia de datos
+MySQL guarda su información en el volumen `mysql_data`. Al ejecutar `docker compose down` y luego `docker compose up`, los usuarios registrados siguen existiendo.
+
+## Variables de entorno
+Las contraseñas y claves viven en `.env` (no se sube a GitHub). `.env.example` es la plantilla.
+
+---
+
 # GameVault 🎮
 
 Catálogo de videojuegos. Proyecto de la Unidad 3: seguridad, web services y APIs.
